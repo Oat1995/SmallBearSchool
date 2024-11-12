@@ -1,0 +1,71 @@
+﻿@page
+@model ScoreAddModel
+@{
+    ViewData["Title"] = "เพิ่มข้อมูลคะแนน";
+    Layout = "_LayoutAdmin";
+}
+
+
+<h2>เพิ่มข้อมูลคะแนน</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <!-- Alert Popup -->
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div id="alertBox" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @Model.ErrorMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <!-- Form -->
+            <form method="post">
+                <div class="form-group mb-3">
+                        <label asp-for="_Score.RefUser" class="form-label">ชื่อนักเรียน</label>
+                        <select asp-for="_Score.RefUser" class="form-control" onchange="hideAlert()">
+                            @foreach (var user in Model._UserAccount)
+                            {
+                                <option value="@user.ID">@user.UserName</option>
+                            }                            
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="_Score.RefSubject" class="form-label">ชื่อรายวิชา</label>
+                        <select asp-for="_Score.RefSubject" class="form-control" onchange="hideAlert()">
+                            @foreach (var subject in Model._Subject)
+                            {
+                                <option value="@subject.ID">@subject.Name</option>
+                            }
+                        </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="_Score.Score" class="form-label">คะแนน</label>
+                    <input asp-for="_Score.Score" class="form-control" oninput="hideAlert()" maxlength="3" />
+                    <span asp-validation-for="_Score.Score" class="text-danger"></span>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success w-50">บันทึก</button>
+                    <a asp-page="/ScoreBoard/Index" class="btn btn-secondary w-50">ยกเลิก</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function hideAlert() {
+            // ซ่อน Alert Popup
+            const alertBox = document.getElementById('alertBox');
+            if (alertBox) {
+                alertBox.style.display = 'none';
+            }
+        }
+    </script>
+}
+
+
+

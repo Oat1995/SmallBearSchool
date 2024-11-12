@@ -1,0 +1,18 @@
+﻿@page
+@model HomeModel
+@{
+    ViewData["Title"] = "หน้าหลัก";
+    if (Model.IsAdmin)
+        Layout = "_LayoutAdmin";
+    else
+        Layout = "_LayoutUser";
+}
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <h2 class="text-center mb-4">ยินดีต้อนรับ @Model.Username</h2>
+        </div>
+    </div>
+</div>
